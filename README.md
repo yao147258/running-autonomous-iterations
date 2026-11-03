@@ -44,6 +44,43 @@ cp -r running-autonomous-iterations/skills/running-autonomous-iterations ~/.clau
 
 **依赖**：git、bash（Windows 用 Git Bash）、jq、curl、GNU coreutils（macOS 需要 `brew install coreutils`）、Claude Code CLI。
 
+## 卸载
+
+### 彻底卸载插件
+
+```bash
+# 1. 卸载插件（同时删除插件数据目录 ~/.claude/plugins/data/<id>/）
+claude plugin uninstall running-autonomous-iterations@running-autonomous-iterations
+
+# 2. 移除插件市场（同时从用户设置中删除该市场）
+claude plugin marketplace remove running-autonomous-iterations
+
+# 3. 删除残留缓存（前两步不会删除这些目录）
+rm -rf ~/.claude/plugins/cache/running-autonomous-iterations
+rm -rf ~/.claude/plugins/marketplaces/running-autonomous-iterations
+
+# 4. 确认已清理干净：两条命令都应无输出
+claude plugin marketplace list | grep running-autonomous-iterations
+find ~/.claude/plugins -iname '*running-autonomous-iterations*'
+```
+
+- 安装时如果指定了 `--scope project` 或 `local`，卸载时也要加上相同的 `--scope`。
+- 手动复制安装的，删除 `~/.claude/skills/running-autonomous-iterations` 即可。
+- Windows 下用 Git Bash 执行以上命令；`~` 对应 `%USERPROFILE%`。
+- 卸载后重启 Claude Code。
+
+### 清理项目中的运行痕迹（可选）
+
+插件不会自动删除各项目里的运行数据。需要清理时，先 `bash .autopilot/autopilot.sh stop` 并等待脚本退出，然后在项目根目录执行：
+
+```bash
+rm -rf .autopilot                                          # 状态、日志、报告、配置
+git for-each-ref --format='%(refname)' refs/autopilot/ \
+  | xargs -r -n1 git update-ref -d                         # 超时保存的 WIP 引用
+sed -i '\#^/\.autopilot/$#d' .git/info/exclude             # 本地忽略规则
+git branch -D autopilot/<日期>                             # 工作分支（确认已合并或不再需要）
+```
+
 ## 使用
 
 在项目目录里对 Claude Code 说：
