@@ -17,14 +17,14 @@
 在 Claude Code 中执行：
 
 ```
-/plugin marketplace add <你的GitHub用户名>/running-autonomous-iterations
+/plugin marketplace add yao147258/running-autonomous-iterations
 /plugin install running-autonomous-iterations@running-autonomous-iterations
 ```
 
 也可以在命令行执行：
 
 ```bash
-claude plugin marketplace add <你的GitHub用户名>/running-autonomous-iterations
+claude plugin marketplace add yao147258/running-autonomous-iterations
 claude plugin install running-autonomous-iterations@running-autonomous-iterations
 ```
 
@@ -38,7 +38,7 @@ claude plugin update running-autonomous-iterations@running-autonomous-iterations
 ### 方式二：手动复制
 
 ```bash
-git clone https://github.com/<你的GitHub用户名>/running-autonomous-iterations
+git clone https://github.com/yao147258/running-autonomous-iterations
 cp -r running-autonomous-iterations/skills/running-autonomous-iterations ~/.claude/skills/
 ```
 
