@@ -31,10 +31,12 @@ description: Use when the user gives one or more goals and wants the AI to keep 
    - 把每条标准落成可执行检查；尽量细粒度，让分数能随进展逐步上升（分数长期不涨会被判定卡住）
    - 人工确认过的验收测试放进独立目录（如 `tests/acceptance/`），提交，并列入 `PROTECTED_PATHS`
    - 加上防削弱检查：全量测试通过、构建通过、`check_absent` 禁止 skip/only 等
-4. **部署文件**：在项目根目录创建 `.autopilot/`，从本 skill 目录复制：
-   - `scripts/autopilot.sh`、`scripts/iteration-prompt.md`
-   - `templates/` 下的 `config.sh`、`GOALS.md`、`TASKS.md`、`verify.sh`、`PROGRESS.md`、`NEEDS_HUMAN.md`
-   - 用 `command cp`，避免用户 shell 里的 cp 别名
+4. **部署文件**：在项目根目录执行（用 `command cp` 避开用户 shell 里的 cp 别名）：
+   ```bash
+   mkdir -p .autopilot
+   command cp "${CLAUDE_SKILL_DIR}"/scripts/{autopilot.sh,iteration-prompt.md} .autopilot/
+   command cp "${CLAUDE_SKILL_DIR}"/templates/{config.sh,GOALS.md,TASKS.md,verify.sh,PROGRESS.md,NEEDS_HUMAN.md} .autopilot/
+   ```
 5. **填写**：
    - `GOALS.md`：目标、约束、无人值守时的默认决策、验收标准表、受保护路径
    - `TASKS.md`：里程碑标题必须是 `## M1 名称 [todo]` 格式，任务用 `- [ ]`

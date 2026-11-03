@@ -1,0 +1,21 @@
+{
+  "name": "running-autonomous-iterations",
+  "description": "长时自主迭代 skill 的插件市场",
+  "owner": {
+    "name": "yfq",
+    "email": "fqyao@szzhice.com"
+  },
+  "plugins": [
+    {
+      "name": "running-autonomous-iterations",
+      "description": "长时自主迭代：给定目标后让 Claude 无人值守连续运行数小时到数天，按时间窗口执行、客观验收、超时保全、卡住检测，并支持 Bark 通知",
+      "version": "0.1.0",
+      "source": "./",
+      "category": "productivity",
+      "author": {
+        "name": "yfq",
+        "email": "fqyao@szzhice.com"
+      }
+    }
+  ]
+}

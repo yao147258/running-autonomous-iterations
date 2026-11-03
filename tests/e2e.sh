@@ -2,8 +2,8 @@
 # autopilot.sh 端到端测试：用 fake-claude.sh 模拟每一轮，时间单位压缩为秒
 # 用法：bash tests/e2e.sh [用例名...]
 set -u
-ROOT="$(cd "$(dirname "$0")/.." && pwd)"
-FAKE="$ROOT/tests/fake-claude.sh"
+ROOT="$(cd "$(dirname "$0")/../skills/running-autonomous-iterations" && pwd)"
+FAKE="$(cd "$(dirname "$0")" && pwd)/fake-claude.sh"
 WORK="${TMPDIR:-/tmp}/autopilot-e2e"
 META="${WORK}-meta"   # 测试记录放在项目外，避免被 git clean 清掉
 PASSED=0; FAILED=0

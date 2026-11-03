@@ -12,11 +12,35 @@
 
 ## 安装
 
-```bash
-git clone https://github.com/<you>/running-autonomous-iterations ~/.claude/skills/running-autonomous-iterations
+### 方式一：插件市场（推荐）
+
+在 Claude Code 中执行：
+
+```
+/plugin marketplace add <你的GitHub用户名>/running-autonomous-iterations
+/plugin install running-autonomous-iterations@running-autonomous-iterations
 ```
 
-Windows 下路径为 `%USERPROFILE%\.claude\skills\running-autonomous-iterations`。
+也可以在命令行执行：
+
+```bash
+claude plugin marketplace add <你的GitHub用户名>/running-autonomous-iterations
+claude plugin install running-autonomous-iterations@running-autonomous-iterations
+```
+
+安装后重启 Claude Code。更新：
+
+```bash
+claude plugin marketplace update running-autonomous-iterations
+claude plugin update running-autonomous-iterations@running-autonomous-iterations
+```
+
+### 方式二：手动复制
+
+```bash
+git clone https://github.com/<你的GitHub用户名>/running-autonomous-iterations
+cp -r running-autonomous-iterations/skills/running-autonomous-iterations ~/.claude/skills/
+```
 
 **依赖**：git、bash（Windows 用 Git Bash）、jq、curl、GNU coreutils（macOS 需要 `brew install coreutils`）、Claude Code CLI。
 
@@ -56,18 +80,30 @@ autopilot.sh（外层调度）
   └─ 生成下一轮的特别提示（超时、回退、换策略、状态不一致……）
 ```
 
-完整行为说明见 [reference.md](reference.md)，每轮的执行协议见 [scripts/iteration-prompt.md](scripts/iteration-prompt.md)。
+完整行为说明见 [reference.md](skills/running-autonomous-iterations/reference.md)，每轮的执行协议见 [iteration-prompt.md](skills/running-autonomous-iterations/scripts/iteration-prompt.md)。
 
 ## 文件
 
 ```
-SKILL.md                    # skill 入口：启动准备流程
-reference.md                # 调度脚本行为参考
-scripts/autopilot.sh        # 外层调度脚本
-scripts/iteration-prompt.md # 每轮协议
-templates/                  # config.sh、GOALS.md、TASKS.md、verify.sh 等模板
-tests/e2e.sh                # 端到端测试（用 fake-claude 模拟，不消耗额度）
+.claude-plugin/
+  plugin.json                       # 插件清单
+  marketplace.json                  # 插件市场清单（本仓库同时是市场和插件）
+skills/running-autonomous-iterations/
+  SKILL.md                          # skill 入口：启动准备流程
+  reference.md                      # 调度脚本行为参考
+  scripts/autopilot.sh              # 外层调度脚本
+  scripts/iteration-prompt.md       # 每轮协议
+  templates/                        # config.sh、GOALS.md、TASKS.md、verify.sh 等模板
+tests/e2e.sh                        # 端到端测试（用 fake-claude 模拟，不消耗额度）
 ```
+
+## 发布新版本
+
+插件更新以版本号为准：内容改了但版本号不变，用户执行 update 时会被认为已是最新版。每次发布：
+
+1. 同时提升 `.claude-plugin/plugin.json` 和 `.claude-plugin/marketplace.json` 中的 `version`
+2. 运行 `claude plugin validate --strict .claude-plugin/plugin.json` 和 `bash tests/e2e.sh`
+3. 提交并推送
 
 ## 测试
 
